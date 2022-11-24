@@ -522,6 +522,7 @@ class ModelHelperMixin:
                     token.lineno,
                     token.col_offset + bdd_len + 1,
                     token.error,
+                    end_col_offset=token.end_col_offset,
                 )
                 break
 
@@ -561,6 +562,7 @@ class ModelHelperMixin:
                         token.lineno,
                         token.col_offset + bdd_len + 1,
                         token.error,
+                        end_col_offset=token.end_col_offset,
                     )
                     break
 

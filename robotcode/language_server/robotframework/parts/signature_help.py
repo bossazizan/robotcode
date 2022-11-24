@@ -69,7 +69,7 @@ class RobotSignatureHelpProtocolPart(RobotLanguageServerProtocolPart, ModelHelpe
                 return cast(_SignatureHelpMethod, method)
         return None
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature")
     @trigger_characters([" ", "\t"])
     @retrigger_characters([" ", "\t"])
     @_logger.call

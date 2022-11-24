@@ -80,7 +80,7 @@ class RobotReferencesProtocolPart(RobotLanguageServerProtocolPart, ModelHelperMi
     async def on_file_changed(self, sender: Any, files: List[FileEvent]) -> None:
         await self.clear_cache()
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature")
     @threaded()
     async def document_did_change(self, sender: Any, document: TextDocument) -> None:
         await self.clear_cache()
@@ -105,7 +105,7 @@ class RobotReferencesProtocolPart(RobotLanguageServerProtocolPart, ModelHelperMi
                 return cast(_ReferencesMethod, method)
         return None
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature")
     @_logger.call
     async def collect(
         self, sender: Any, document: TextDocument, position: Position, context: ReferenceContext
@@ -148,12 +148,12 @@ class RobotReferencesProtocolPart(RobotLanguageServerProtocolPart, ModelHelperMi
 
         # tasks = []
         for doc in self.parent.documents.documents:
-            if doc.language_id == "robotframework":
-                result.extend(await func(doc, *args, **kwargs))
-                if result and stop_at_first:
-                    break
+            # if doc.language_id == "robotframework":
+            result.extend(await func(doc, *args, **kwargs))
+            if result and stop_at_first:
+                break
 
-                # tasks.append(run_coroutine_in_thread(func, doc, *args, **kwargs))
+            # tasks.append(run_coroutine_in_thread(func, doc, *args, **kwargs))
 
         # result = await asyncio.gather(*tasks)
 

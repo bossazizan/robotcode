@@ -22,7 +22,7 @@ class RobotDocumentHighlightProtocolPart(RobotLanguageServerProtocolPart, ModelH
 
         parent.document_highlight.collect.add(self.collect)
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature")
     @_logger.call
     async def collect(
         self,

@@ -29,7 +29,7 @@ class RobotSelectionRangeProtocolPart(RobotLanguageServerProtocolPart, ModelHelp
 
         parent.selection_range.collect.add(self.collect)
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature")
     @_logger.call
     async def collect(
         self, sender: Any, document: TextDocument, positions: List[Position]

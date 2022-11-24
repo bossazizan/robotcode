@@ -128,6 +128,7 @@ class DiagnosticsProtocolPart(LanguageServerProtocolPart, HasExtendCapabilities)
 
         self.parent.on_exit.add(self.cancel_workspace_diagnostics_task)
 
+        self.parent.documents.did_save.add(self.on_did_save)
         self.parent.documents.did_close.add(self.on_did_close)
 
         self.in_get_workspace_diagnostics = Event(True)
@@ -232,6 +233,11 @@ class DiagnosticsProtocolPart(LanguageServerProtocolPart, HasExtendCapabilities)
         self.get_diagnostics_data(document).force = True
         if refresh and document.opened_in_editor:
             await self.refresh()
+
+    @_logger.call
+    @threaded()
+    async def on_did_save(self, sender: Any, document: TextDocument) -> None:
+        await self.force_refresh_document(document)
 
     @_logger.call
     @threaded()

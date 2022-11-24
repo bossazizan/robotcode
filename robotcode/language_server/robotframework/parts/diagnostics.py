@@ -52,7 +52,6 @@ class RobotDiagnosticsProtocolPart(RobotLanguageServerProtocolPart):
 
         parent.documents_cache.namespace_invalidated.add(self.namespace_invalidated)
 
-    @language_id("robotframework")
     @threaded()
     @_logger.call
     async def namespace_invalidated(self, sender: Any, namespace: Namespace) -> None:
@@ -73,7 +72,7 @@ class RobotDiagnosticsProtocolPart(RobotLanguageServerProtocolPart):
             if refresh:
                 await self.parent.diagnostics.refresh()
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature", "markdown")
     @threaded()
     @_logger.call
     async def collect_namespace_diagnostics(self, sender: Any, document: TextDocument) -> DiagnosticsResult:
@@ -211,7 +210,7 @@ class RobotDiagnosticsProtocolPart(RobotLanguageServerProtocolPart):
 
         return DiagnosticsResult(self.collect_token_errors, result)
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature", "markdown")
     @threaded()
     @_logger.call
     async def collect_model_errors(self, sender: Any, document: TextDocument) -> DiagnosticsResult:

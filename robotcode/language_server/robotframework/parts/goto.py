@@ -70,14 +70,14 @@ class RobotGotoProtocolPart(RobotLanguageServerProtocolPart, ModelHelperMixin):
                 return cast(_CollectMethod, method)
         return None
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature")
     @_logger.call
     async def collect_definition(
         self, sender: Any, document: TextDocument, position: Position
     ) -> Union[Location, List[Location], List[LocationLink], None]:
         return await self.collect(document, position, CollectType.DEFINITION)
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature")
     @_logger.call
     async def collect_implementation(
         self, sender: Any, document: TextDocument, position: Position

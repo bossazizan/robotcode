@@ -280,7 +280,18 @@ class DocumentsCache(RobotLanguageServerProtocolPart):
         return await self.__get_tokens_internal(document, get)
 
     async def get_model(self, document: TextDocument, data_only: bool = True) -> ast.AST:
+        from robot.running.builder.builders import SuiteStructureParser
+
         document_type = await self.get_document_type(document)
+
+        path = document.uri.to_path()
+        extension = path.suffix.lower()
+
+        suite_structure_parser = SuiteStructureParser(("robot", "feature"), parsers=("GherkinParser",))
+        try:
+            parser = suite_structure_parser.parsers[extension[1:]]
+        except KeyError:
+            parser = suite_structure_parser.parsers["robot"]
 
         if document_type == DocumentType.INIT:
             return await self.get_init_model(document, data_only)
@@ -289,7 +300,8 @@ class DocumentsCache(RobotLanguageServerProtocolPart):
         if document_type == DocumentType.RESOURCE:
             return await self.get_resource_model(document, data_only)
         else:
-            raise UnknownFileTypeError(f"Unknown file type '{document.uri}'.")
+            return cast(ast.AST, parser.parse_suite_file(path, content=await document.text()).model)
+            # raise UnknownFileTypeError(f"Unknown file type '{document.uri}'.")
 
     def __get_model(self, document: TextDocument, tokens: Iterable[Any], document_type: DocumentType) -> ast.AST:
         from robot.parsing.lexer import Token

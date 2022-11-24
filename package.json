@@ -192,7 +192,30 @@
           ".robot",
           ".resource"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./robot-language-configuration.json"
+      },
+      {
+        "id": "feature",
+        "aliases": [
+          "feature",
+          "gherkin",
+          "cucumber"
+        ],
+        "extensions": [
+          ".feature"
+        ],
+        "configuration": "./feature-language-configuration.json"
+      },
+      {
+        "id": "markdown",
+        "aliases": [
+          "markdownfeature",
+          "markdowngherkin",
+          "markdowncucumber"
+        ],
+        "extensions": [
+          ".feature.md"
+        ]
       }
     ],
     "grammars": [
@@ -200,6 +223,11 @@
         "language": "robotframework",
         "scopeName": "source.robotframework",
         "path": "./syntaxes/robotframework.tmLanguage.json"
+      },
+      {
+        "language": "feature",
+        "scopeName": "text.gherkin.feature",
+        "path": "./syntaxes/feature.tmLanguage"
       }
     ],
     "keybindings": [
@@ -624,6 +652,9 @@
     "breakpoints": [
       {
         "language": "robotframework"
+      },
+      {
+        "language": "feature"
       }
     ],
     "debuggers": [

@@ -62,11 +62,15 @@ class RobotHoverProtocolPart(RobotLanguageServerProtocolPart, ModelHelperMixin):
 
         return None
 
-    @language_id("robotframework")
+    @language_id("robotframework", "feature")
     @_logger.call
     async def collect(self, sender: Any, document: TextDocument, position: Position) -> Optional[Hover]:
 
-        result_nodes = await get_nodes_at_position(await self.parent.documents_cache.get_model(document), position)
+        model = await self.parent.documents_cache.get_model(document)
+        if model is None:
+            return None
+
+        result_nodes = await get_nodes_at_position(model, position)
 
         if not result_nodes:
             return None

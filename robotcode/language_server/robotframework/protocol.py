@@ -2,7 +2,7 @@ import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from ..._version import __version__
 from ...jsonrpc2.protocol import (
@@ -14,7 +14,7 @@ from ...utils.dataclasses import from_dict
 from ...utils.logging import LoggingDescriptor
 from ..common.lsp_types import InitializeError, Model
 from ..common.parts.document_symbols import symbol_information_label
-from ..common.protocol import LanguageServerProtocol
+from ..common.protocol import LanguageDefinition, LanguageServerProtocol
 from .configuration import RobotConfig
 from .parts.code_action import RobotCodeActionProtocolPart
 from .parts.codelens import RobotCodeLensProtocolPart
@@ -106,7 +106,21 @@ class RobotLanguageServerProtocol(LanguageServerProtocol):
     short_name = "RobotCode"
     version = __version__
 
-    file_extensions = {"robot", "resource", "py", "yaml", "yml"}
+    file_extensions = {"robot", "resource", "py", "yaml", "yml", "feature"}
+
+    languages: List[LanguageDefinition] = [
+        LanguageDefinition(
+            id="robotframework",
+            extensions=[".robot", ".resource"],
+            aliases=["Robot Framework", "robotframework"],
+        ),
+        LanguageDefinition(
+            id="feature",
+            extensions=[".feature", ".md"],
+            aliases=["feature", "gherkin", "Gherkin", "cucumber"],
+        ),
+        LanguageDefinition(id="markdown", extensions=[".md"]),
+    ]
 
     def __init__(self, server: "RobotLanguageServer"):
         super().__init__(server)

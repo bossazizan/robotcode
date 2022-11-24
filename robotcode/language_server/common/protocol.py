@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Any, List, Optional, Set, Union, cast
+from typing import Any, List, NamedTuple, Optional, Set, Union, cast
 
 from ...jsonrpc2.protocol import (
     JsonRPCErrorException,
@@ -70,6 +70,12 @@ class LanguageServerException(JsonRPCException):
     pass
 
 
+class LanguageDefinition(NamedTuple):
+    id: str
+    extensions: List[str]
+    aliases: Optional[List[str]] = None
+
+
 class LanguageServerProtocol(JsonRPCProtocol):
 
     _logger = LoggingDescriptor()
@@ -103,6 +109,7 @@ class LanguageServerProtocol(JsonRPCProtocol):
     version: Optional[str] = None
 
     file_extensions: Set[str] = set()
+    languages: List[LanguageDefinition] = []
 
     def __init__(self, server: JsonRPCServer[Any]):
         super().__init__()

@@ -1018,7 +1018,7 @@ class ImportsManager:
                     f"Supported extensions are {', '.join(repr(s) for s in RESOURCE_EXTENSIONS)}."
                 )
 
-            return await self.parent_protocol.documents.get_or_open_document(source_path, "robotframework")
+            return await self.parent_protocol.documents.get_or_open_document(source_path)
 
         entry_key = _ResourcesEntryKey(source)
 
